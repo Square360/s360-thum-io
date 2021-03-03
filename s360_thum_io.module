@@ -1,0 +1,91 @@
+<?php
+
+/**
+ * @file
+ * Contains s360_thum_io.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\node\NodeInterface;
+use Drupal\Core\File\FileSystemInterface;
+
+/**
+ * Implements hook_help().
+ */
+function s360_thum_io_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the s360_thum_io module.
+    case "help.page.s360_thum_io":
+      $output = "";
+      $output .= "<h3>" . t("About") . "</h3>";
+      $output .= "<p>" . t("Interface to use Thum.io advanced MD5 auth key for thumbnails") . "</p>";
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_node_presave().
+ */
+function thum_io_entity_presave($entity, $field) {
+  if ($entity->hasField($field)) {
+    $uri = $entity->get($field)->first()->uri;
+
+    if ($uri != '') {
+      // Create the thumbnail url.
+      $thumio_url = thumb_io_build_image_url($uri);
+
+      // Save the thumbnail to the local files directory.
+      $directory = \Drupal::config('system.file')->get('default_scheme') . '://thumio_screenshots';
+      $destination = \Drupal::config('system.file')->get('default_scheme') . '://thumio_screenshots/' . $node->id() . '.jpg';
+
+      \Drupal::service('file_system')->prepareDirectory($directory, \Drupal\Core\File\FileSystemInterface::CREATE_DIRECTORY);
+
+      $result = file_get_contents($thumio_url);
+
+      \Drupal::service('file_system')->saveData($result, $destination, FileSystemInterface::EXISTS_REPLACE);
+    }
+  }
+}
+
+/**
+ * BuildThumbioSrcLink - builds the url to use for thum.io auth based images
+ */
+function thumb_io_build_image_url($src_url, $width='800', $crop='900') {
+  $config = \Drupal::config("s360_thum_io.adminsettings");
+  $keyid = $config->get("key_id");
+  $secret = $config->get("secret");
+
+  // set a timetamp for now + 5 minutes
+  $time_now = new DateTime();
+  $time_now->add(new DateInterval("PT0H30M0S"));
+  $expires = $time_now->getTimestamp()*1000;
+
+  $hash = md5($secret . $expires . $src_url);
+  $auth = $keyid . "-" . $expires . "-" . $hash;
+
+  $img_url = "https://image.thum.io/get/auth/" . $auth;
+  $img_url .= "/noanimate";
+  $img_url .= "/wait/1";
+  $img_url .= "/allowJPG";
+
+  if (strpos($src_url,'.pdf')) {
+    $img_url .= "/pdfSource/page/1";
+    $img_url .= "/width/" . $width;
+  }
+  else {
+    if ($width == 'ogImage') {
+      $img_url .= '/ogImage/';
+    }
+    else {
+      $img_url .= "/width/" . $width;
+      $img_url .= "/crop/" . $crop;
+    }
+  }
+
+  $img_url .= "/" . $src_url;
+
+  return $img_url;
+}
+

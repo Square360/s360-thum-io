@@ -1,0 +1,5 @@
+name: 'S360 Thum.io Config'
+type: module
+description: 'Interface to use Thum.io advanced MD5 auth key for thumbnails'
+core_version_requirement: ^8 || ^9
+package: 'Custom'

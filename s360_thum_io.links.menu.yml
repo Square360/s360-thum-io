@@ -1,0 +1,6 @@
+thum_io.admin_settings_form:
+  title: 'Thum.io API Settings'
+  route_name: thum_io.admin_settings_form
+  description: 'Thum.io API Settings'
+  parent: system.admin_config_system
+  weight: 99
