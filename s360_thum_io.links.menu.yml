@@ -1,6 +1,6 @@
-thum_io.admin_settings_form:
-  title: 'Thum.io API Settings'
-  route_name: thum_io.admin_settings_form
-  description: 'Thum.io API Settings'
-  parent: system.admin_config_system
+s360_thum_io.admin_settings_form:
+  title: 'Thum.io'
+  route_name: s360_thum_io.admin_settings_form
+  description: 'Configure Thum.io MD5 auth key.'
+  parent: system.admin_config_media
   weight: 99
