@@ -1,0 +1,12 @@
+{
+    "name": "square360/s360_thum_io",
+    "description": "Square360 Thum.io",
+    "type": "drupal-module",
+    "keywords": [
+        "Drupal",
+        "Image Generator"
+    ],
+    "license": "GPL-2.0+",
+    "minimum-stability": "dev",
+    "version": "1.0.0"
+}
