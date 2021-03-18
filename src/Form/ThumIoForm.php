@@ -15,7 +15,7 @@ class ThumIoForm extends ConfigFormBase {
    */
   protected function getEditableConfigNames() {
     return [
-      'thum_io.settings',
+      's360_thum_io.settings',
     ];
   }
 
@@ -30,7 +30,7 @@ class ThumIoForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = $this->config('thum_io.settings');
+    $config = $this->config('s360_thum_io.settings');
 
     $form['key_information'] = [
       '#type' => 'fieldset',
@@ -75,7 +75,7 @@ class ThumIoForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
 
-    $this->config('thum_io.settings')
+    $this->config('s360_thum_io.settings')
       ->set('id', $form_state->getValue('id'))
       ->set('secret_key', $form_state->getValue('secret_key'))
       ->save();
