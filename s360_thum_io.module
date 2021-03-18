@@ -50,9 +50,9 @@ function thum_io_entity_presave($entity, $field) {
  * BuildThumbioSrcLink - builds the url to use for thum.io auth based images
  */
 function thum_io_build_image_url($src_url, $width = '800', $crop = '900') {
-  $thum_io_settings = \Drupal::config('thum_io.settings');
-  $thum_io_id = $thum_io_settings->get('id');
-  $thum_io_secret_key = $thum_io_settings->get('secret_key');
+  $s360_thum_io_settings = \Drupal::config('s360_thum_io.settings');
+  $thum_io_id = $s360_thum_io_settings->get('id');
+  $thum_io_secret_key = $s360_thum_io_settings->get('secret_key');
 
   // set a timetamp for now + 5 minutes
   $time_now = new DateTime();
