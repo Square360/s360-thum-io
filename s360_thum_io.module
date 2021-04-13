@@ -73,7 +73,7 @@ function thum_io_build_image_url($src_url, $width = '800', $crop = '900') {
   }
   else {
     if ($width == 'ogImage') {
-      $img_url .= '/ogImage/';
+      $img_url .= '/width/1200/crop/630/';
     }
     else {
       $img_url .= '/width/' . $width;
