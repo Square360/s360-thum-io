@@ -64,7 +64,7 @@ function thum_io_build_image_url($src_url, $width = '800', $crop = '900') {
 
   $img_url = 'https://image.thum.io/get/auth/' . $auth;
   $img_url .= '/noanimate';
-  $img_url .= '/wait/1';
+  $img_url .= '/wait/4';
   $img_url .= '/allowJPG';
 
   if (strpos($src_url, '.pdf')) {
@@ -73,7 +73,7 @@ function thum_io_build_image_url($src_url, $width = '800', $crop = '900') {
   }
   else {
     if ($width == 'ogImage') {
-      $img_url .= '/ogImage/';
+      $img_url .= '/width/1200/crop/630/';
     }
     else {
       $img_url .= '/width/' . $width;
